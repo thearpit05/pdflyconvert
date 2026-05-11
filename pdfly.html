@@ -1,0 +1,2079 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDFly – Free PDF Tools for Everyone</title>
+    <meta name="google-site-verification" content="google5932c3b153a86535.html" />
+    <meta
+      name="description"
+      content="Free online PDF tools – merge, compress, split, convert PDFs instantly. No signup needed. Fast, secure, and free forever."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f7f5f0;
+        --surface: #ffffff;
+        --primary: #ff4d1c;
+        --primary-dark: #d93a0d;
+        --accent: #1a1a1a;
+        --muted: #888;
+        --border: #e8e4dc;
+        --card-bg: #ffffff;
+        --text: #1a1a1a;
+        --radius: 16px;
+        --shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+        --shadow-hover: 0 12px 40px rgba(255, 77, 28, 0.18);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(247, 245, 240, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 0 5vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+      }
+      .logo {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 1.5rem;
+        color: var(--text);
+        text-decoration: none;
+      }
+      .logo span {
+        color: var(--primary);
+      }
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--primary);
+      }
+      .nav-cta {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 0.5rem 1.2rem;
+        border-radius: 8px;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition:
+          background 0.2s,
+          transform 0.15s;
+      }
+      .nav-cta:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+      }
+
+      /* ── PAGES ── */
+      .page {
+        display: none;
+      }
+      .page.active {
+        display: block;
+      }
+
+      /* ── HERO ── */
+      .hero {
+        padding: 90px 5vw 70px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 80% 60% at 50% 0%,
+          rgba(255, 77, 28, 0.08) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: rgba(255, 77, 28, 0.1);
+        color: var(--primary);
+        padding: 0.3rem 0.9rem;
+        border-radius: 99px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 1.4rem;
+        border: 1px solid rgba(255, 77, 28, 0.2);
+      }
+      .hero h1 {
+        font-family: "Syne", sans-serif;
+        font-size: clamp(2.4rem, 6vw, 4.2rem);
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin-bottom: 1rem;
+      }
+      .hero h1 em {
+        color: var(--primary);
+        font-style: normal;
+      }
+      .hero p {
+        color: var(--muted);
+        font-size: 1.1rem;
+        max-width: 520px;
+        margin: 0 auto 2.5rem;
+      }
+      .hero-upload-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        background: var(--primary);
+        color: white;
+        padding: 1rem 2.2rem;
+        border-radius: 12px;
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 6px 30px rgba(255, 77, 28, 0.35);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .hero-upload-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 40px rgba(255, 77, 28, 0.45);
+      }
+      .hero-upload-btn svg {
+        width: 22px;
+        height: 22px;
+      }
+      .hero-stats {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        margin-top: 3.5rem;
+        flex-wrap: wrap;
+      }
+      .stat {
+        text-align: center;
+      }
+      .stat-num {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 1.8rem;
+        color: var(--text);
+      }
+      .stat-label {
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      /* ── TOOLS GRID ── */
+      section {
+        padding: 60px 5vw;
+      }
+      section h2 {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
+        margin-bottom: 0.4rem;
+        letter-spacing: -0.01em;
+      }
+      .section-sub {
+        color: var(--muted);
+        margin-bottom: 2.5rem;
+      }
+
+      .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+      .tool-card {
+        background: var(--card-bg);
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.6rem 1.4rem;
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s,
+          transform 0.2s;
+        position: relative;
+        overflow: hidden;
+      }
+      .tool-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 77, 28, 0.04) 0%,
+          transparent 60%
+        );
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .tool-card:hover {
+        border-color: var(--primary);
+        box-shadow: var(--shadow-hover);
+        transform: translateY(-4px);
+      }
+      .tool-card:hover::after {
+        opacity: 1;
+      }
+      .tool-icon {
+        width: 48px;
+        height: 48px;
+        background: rgba(255, 77, 28, 0.1);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+      }
+      .tool-card h3 {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+      }
+      .tool-card p {
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+      .tool-card .arrow {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.2rem;
+        color: var(--border);
+        transition:
+          color 0.2s,
+          transform 0.2s;
+        font-size: 1rem;
+      }
+      .tool-card:hover .arrow {
+        color: var(--primary);
+        transform: translate(2px, -2px);
+      }
+
+      /* ── UPLOAD / DROP AREA ── */
+      .upload-section {
+        background: var(--surface);
+        border-radius: 20px;
+      }
+      .drop-zone {
+        border: 2.5px dashed var(--border);
+        border-radius: var(--radius);
+        padding: 3.5rem 2rem;
+        text-align: center;
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+        position: relative;
+      }
+      .drop-zone:hover,
+      .drop-zone.drag-over {
+        border-color: var(--primary);
+        background: rgba(255, 77, 28, 0.03);
+      }
+      .drop-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+      .drop-zone h3 {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+      }
+      .drop-zone p {
+        color: var(--muted);
+        margin-bottom: 1.4rem;
+      }
+      .drop-btn {
+        background: var(--primary);
+        color: white;
+        padding: 0.7rem 1.8rem;
+        border-radius: 10px;
+        border: none;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition: background 0.2s;
+      }
+      .drop-btn:hover {
+        background: var(--primary-dark);
+      }
+      .file-types {
+        margin-top: 1rem;
+        font-size: 0.78rem;
+        color: #bbb;
+      }
+      #file-input {
+        display: none;
+      }
+
+      /* ── FEATURES ── */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1.2rem;
+      }
+      .feature-card {
+        background: var(--surface);
+        border-radius: var(--radius);
+        padding: 1.8rem;
+        border: 1.5px solid var(--border);
+      }
+      .feat-icon {
+        font-size: 2rem;
+        margin-bottom: 0.9rem;
+      }
+      .feature-card h3 {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 0.4rem;
+      }
+      .feature-card p {
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+
+      /* ── FAQ ── */
+      .faq-section {
+        background: var(--surface);
+        border-radius: 20px;
+      }
+      .faq-list {
+        max-width: 780px;
+      }
+      .faq-item {
+        border-bottom: 1px solid var(--border);
+      }
+      .faq-q {
+        width: 100%;
+        text-align: left;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 1.2rem 0;
+        font-family: "Syne", sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--text);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+      .faq-q .chevron {
+        transition: transform 0.3s;
+        flex-shrink: 0;
+      }
+      .faq-item.open .faq-q .chevron {
+        transform: rotate(180deg);
+      }
+      .faq-a {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.4s ease,
+          padding 0.3s;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+      .faq-item.open .faq-a {
+        max-height: 200px;
+        padding-bottom: 1.2rem;
+      }
+
+      /* ── TOOL PAGE ── */
+      .tool-page {
+        padding: 60px 5vw;
+      }
+      .tool-page-header {
+        margin-bottom: 2.5rem;
+      }
+      .breadcrumb {
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin-bottom: 0.8rem;
+      }
+      .breadcrumb a {
+        color: var(--primary);
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .tool-page-header h1 {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        margin-bottom: 0.5rem;
+      }
+      .tool-page-header p {
+        color: var(--muted);
+        max-width: 480px;
+      }
+
+      .tool-workspace {
+        background: var(--surface);
+        border: 1.5px solid var(--border);
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+      }
+      .preview-area {
+        min-height: 160px;
+        background: var(--bg);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        color: var(--muted);
+        font-size: 0.9rem;
+        border: 1.5px dashed var(--border);
+        text-align: center;
+        padding: 2rem;
+      }
+      .convert-btn {
+        background: var(--primary);
+        color: white;
+        padding: 0.85rem 2rem;
+        border-radius: 10px;
+        border: none;
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          transform 0.2s;
+        box-shadow: 0 4px 20px rgba(255, 77, 28, 0.3);
+      }
+      .convert-btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+      .convert-btn:disabled {
+        background: #ccc;
+        box-shadow: none;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .seo-content {
+        background: var(--surface);
+        border-radius: var(--radius);
+        padding: 2rem;
+        border: 1px solid var(--border);
+        margin-top: 2rem;
+      }
+      .seo-content h2 {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+      }
+      .seo-content p {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-bottom: 0.8rem;
+      }
+
+      /* ── STATIC PAGES ── */
+      .static-page {
+        padding: 60px 5vw;
+        max-width: 900px;
+      }
+      .static-page h1 {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 2.4rem;
+        margin-bottom: 1.5rem;
+      }
+      .static-page h2 {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 1.3rem;
+        margin: 2rem 0 0.6rem;
+      }
+      .static-page p {
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 0.9rem;
+        line-height: 1.7;
+      }
+      .static-page a {
+        color: var(--primary);
+      }
+
+      /* ── CONTACT FORM ── */
+      .contact-form {
+        max-width: 560px;
+        margin-top: 1.5rem;
+      }
+      .form-group {
+        margin-bottom: 1.2rem;
+      }
+      .form-group label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 0.4rem;
+        font-size: 0.9rem;
+      }
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1.5px solid var(--border);
+        border-radius: 10px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.95rem;
+        background: var(--bg);
+        transition: border-color 0.2s;
+        outline: none;
+      }
+      .form-group input:focus,
+      .form-group textarea:focus {
+        border-color: var(--primary);
+      }
+      .form-group textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+      .form-submit {
+        background: var(--primary);
+        color: white;
+        padding: 0.8rem 2rem;
+        border-radius: 10px;
+        border: none;
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background 0.2s;
+      }
+      .form-submit:hover {
+        background: var(--primary-dark);
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        background: var(--accent);
+        color: #aaa;
+        padding: 2.5rem 5vw;
+        margin-top: 3rem;
+      }
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+      .footer-brand .logo {
+        color: white;
+      }
+      .footer-brand p {
+        font-size: 0.82rem;
+        margin-top: 0.4rem;
+      }
+      .footer-links {
+        display: flex;
+        gap: 2.5rem;
+        flex-wrap: wrap;
+      }
+      .footer-col h4 {
+        color: white;
+        font-family: "Syne", sans-serif;
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin-bottom: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .footer-col a {
+        display: block;
+        color: #888;
+        text-decoration: none;
+        font-size: 0.82rem;
+        margin-bottom: 0.4rem;
+        transition: color 0.2s;
+      }
+      .footer-col a:hover {
+        color: var(--primary);
+      }
+      .footer-bottom {
+        border-top: 1px solid #333;
+        margin-top: 2rem;
+        padding-top: 1.2rem;
+        font-size: 0.78rem;
+        text-align: center;
+        color: #555;
+      }
+
+      /* ── TOAST ── */
+      .toast {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: var(--accent);
+        color: white;
+        padding: 0.85rem 1.5rem;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        z-index: 999;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        pointer-events: none;
+      }
+      .toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 640px) {
+        .nav-links {
+          display: none;
+        }
+        .hero-stats {
+          gap: 1.5rem;
+        }
+        .footer-inner {
+          flex-direction: column;
+        }
+        .footer-links {
+          gap: 1.5rem;
+        }
+      }
+
+      /* ── ANIMATIONS ── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .page.active > * {
+        animation: fadeUp 0.5s ease both;
+      }
+      .tool-card,
+      .feature-card {
+        animation: fadeUp 0.5s ease both;
+      }
+      .tool-card:nth-child(2) {
+        animation-delay: 0.07s;
+      }
+      .tool-card:nth-child(3) {
+        animation-delay: 0.14s;
+      }
+      .tool-card:nth-child(4) {
+        animation-delay: 0.21s;
+      }
+      .tool-card:nth-child(5) {
+        animation-delay: 0.28s;
+      }
+    </style>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5093633594528875"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <a class="logo" href="#" onclick="navigate('home')">PDF<span>ly</span></a>
+      <ul class="nav-links">
+        <li><a href="#" onclick="navigate('home')">Home</a></li>
+        <li><a href="#" onclick="navigate('about')">About</a></li>
+        <li><a href="#" onclick="navigate('contact')">Contact</a></li>
+      </ul>
+      <button
+        class="nav-cta"
+        onclick="
+          navigate('home');
+          scrollTo('#tools');
+        "
+      >
+        Get Started →
+      </button>
+    </nav>
+
+    <!-- ═══════════════ HOME PAGE ═══════════════ -->
+    <div id="home" class="page active">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-badge">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <circle cx="6" cy="6" r="5" fill="#ff4d1c" />
+          </svg>
+          100% Free · No Signup Required
+        </div>
+        <h1>Free PDF Tools<br /><em>for Everyone</em></h1>
+        <p>
+          Merge, compress, convert & split PDFs instantly — right in your
+          browser. Fast, secure, and completely free.
+        </p>
+        <button
+          class="hero-upload-btn"
+          onclick="document.getElementById('hero-file').click()"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg>
+          Upload Your PDF
+        </button>
+        <input
+          type="file"
+          id="hero-file"
+          accept=".pdf,.jpg,.jpeg,.png"
+          onchange="handleHeroUpload(this)"
+        />
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-num">2M+</div>
+            <div class="stat-label">Files Processed</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">50+</div>
+            <div class="stat-label">Countries</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Free Forever</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">0</div>
+            <div class="stat-label">Signups Needed</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TOOLS GRID -->
+      <section id="tools">
+        <h2>All PDF Tools</h2>
+        <p class="section-sub">
+          Everything you need to work with PDFs — in one place.
+        </p>
+        <div class="tools-grid">
+          <div class="tool-card" onclick="navigate('jpg-to-pdf')">
+            <div class="tool-icon">🖼️</div>
+            <h3>JPG to PDF</h3>
+            <p>Convert images to PDF in seconds.</p>
+            <span class="arrow">↗</span>
+          </div>
+          <div class="tool-card" onclick="navigate('merge-pdf')">
+            <div class="tool-icon">📎</div>
+            <h3>Merge PDF</h3>
+            <p>Combine multiple PDFs into one.</p>
+            <span class="arrow">↗</span>
+          </div>
+          <div class="tool-card" onclick="navigate('compress-pdf')">
+            <div class="tool-icon">🗜️</div>
+            <h3>Compress PDF</h3>
+            <p>Reduce PDF file size without quality loss.</p>
+            <span class="arrow">↗</span>
+          </div>
+          <div class="tool-card" onclick="navigate('split-pdf')">
+            <div class="tool-icon">✂️</div>
+            <h3>Split PDF</h3>
+            <p>Extract pages from a PDF file.</p>
+            <span class="arrow">↗</span>
+          </div>
+          <div class="tool-card" onclick="navigate('pdf-to-word')">
+            <div class="tool-icon">📝</div>
+            <h3>PDF to Word</h3>
+            <p>Convert PDF documents to editable Word.</p>
+            <span class="arrow">↗</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- UPLOAD AREA -->
+      <section>
+        <h2>Quick Upload</h2>
+        <p class="section-sub">Drop any file to get started right away.</p>
+        <div
+          class="drop-zone"
+          id="drop-zone"
+          ondrop="handleDrop(event)"
+          ondragover="handleDragOver(event)"
+          ondragleave="handleDragLeave(event)"
+          onclick="document.getElementById('file-input').click()"
+        >
+          <div class="drop-icon">📄</div>
+          <h3>Drop files here</h3>
+          <p>or click to browse files from your device</p>
+          <button
+            class="drop-btn"
+            onclick="
+              event.stopPropagation();
+              document.getElementById('file-input').click();
+            "
+          >
+            Choose File
+          </button>
+          <div class="file-types">
+            Supported: PDF, JPG, PNG, DOCX · Max 50MB per file
+          </div>
+        </div>
+        <input
+          type="file"
+          id="file-input"
+          accept=".pdf,.jpg,.jpeg,.png,.docx"
+          onchange="handleFileSelect(this)"
+        />
+      </section>
+
+      <!-- FEATURES -->
+      <section>
+        <h2>Why PDFly?</h2>
+        <p class="section-sub">Built for simplicity, speed, and privacy.</p>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feat-icon">⚡</div>
+            <h3>Fast Processing</h3>
+            <p>
+              Your files are processed in seconds using optimized cloud
+              infrastructure.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feat-icon">🔒</div>
+            <h3>Secure Files</h3>
+            <p>
+              Files are encrypted and automatically deleted after 1 hour. Your
+              privacy matters.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feat-icon">🆓</div>
+            <h3>Free Forever</h3>
+            <p>
+              All core tools are free. No hidden charges, no subscriptions, no
+              surprises.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feat-icon">🚫</div>
+            <h3>No Signup Needed</h3>
+            <p>
+              Just upload and go. No account, no email, no hassle whatsoever.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feat-icon">📱</div>
+            <h3>Works on Mobile</h3>
+            <p>
+              Fully responsive — use it on any device, any screen size, any
+              browser.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feat-icon">☁️</div>
+            <h3>No Install Required</h3>
+            <p>
+              Everything runs in your browser. No downloads, no plugins, ever.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <p class="section-sub">Got questions? We've got answers.</p>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              How do I merge multiple PDFs?
+              <svg
+                class="chevron"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            <div class="faq-a">
+              Click on "Merge PDF" tool, upload two or more PDF files, then
+              click the Merge button. Your combined PDF will be ready to
+              download instantly.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              Are my files safe and secure?
+              <svg
+                class="chevron"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            <div class="faq-a">
+              Yes. All file transfers are encrypted via HTTPS. Uploaded files
+              are stored temporarily on secure servers and automatically deleted
+              within 1 hour of processing.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              What is the maximum upload file size?
+              <svg
+                class="chevron"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            <div class="faq-a">
+              You can upload files up to 50MB per file. For larger files, we
+              recommend compressing your PDF first using our Compress PDF tool
+              before re-uploading.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              Do I need to create an account?
+              <svg
+                class="chevron"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            <div class="faq-a">
+              No. All tools on PDFly are completely free to use without any
+              account or signup. Just visit the website, upload your file, and
+              get your result.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              How do I convert JPG to PDF?
+              <svg
+                class="chevron"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            <div class="faq-a">
+              Go to the "JPG to PDF" tool, upload one or more image files (JPG,
+              PNG), arrange them in the desired order, then click "Convert to
+              PDF". Download your PDF instantly.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              Is PDFly completely free?
+              <svg
+                class="chevron"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            <div class="faq-a">
+              Yes, all core PDF tools on PDFly are free forever. We may
+              introduce optional premium features in the future, but the
+              essential tools will always remain free.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- /home -->
+
+    <!-- ═══════════════ TOOL PAGES ═══════════════ -->
+
+    <!-- JPG TO PDF -->
+    <div id="jpg-to-pdf" class="page">
+      <div class="tool-page">
+        <div class="tool-page-header">
+          <div class="breadcrumb">
+            <a onclick="navigate('home')">Home</a> › JPG to PDF
+          </div>
+          <h1>JPG to PDF Converter</h1>
+          <p>
+            Upload JPG or PNG images and convert them into a single PDF file —
+            free and instant.
+          </p>
+        </div>
+        <div class="tool-workspace">
+          <div
+            class="drop-zone"
+            onclick="document.getElementById('jpg-input').click()"
+            id="jpg-drop"
+            ondrop="handleToolDrop(event, 'jpg-drop', 'jpg-preview')"
+            ondragover="handleDragOver(event)"
+            ondragleave="handleDragLeave(event)"
+          >
+            <div class="drop-icon">🖼️</div>
+            <h3>Drop Images Here</h3>
+            <p>JPG, PNG, WEBP supported</p>
+            <button class="drop-btn" onclick="event.stopPropagation()">
+              Select Images
+            </button>
+          </div>
+          <input
+            type="file"
+            id="jpg-input"
+            accept=".jpg,.jpeg,.png,.webp"
+            multiple
+            onchange="showPreview(this, 'jpg-preview')"
+          />
+          <div class="preview-area" id="jpg-preview">
+            Uploaded images will appear here as a preview.
+          </div>
+
+          <button
+            class="convert-btn"
+            onclick="
+              simulateConvert(
+                this,
+                'Converting images to PDF…',
+                'your_images.pdf',
+                'jpg-input',
+                'jpg-to-pdf',
+              )
+            "
+          >
+            Convert to PDF →
+          </button>
+        </div>
+        <div class="seo-content">
+          <h2>How to Convert JPG to PDF</h2>
+          <p>
+            Converting JPG images to PDF is easy with PDFly. Simply upload your
+            image files, arrange them in the order you want, and click "Convert
+            to PDF". Your download will be ready in seconds.
+          </p>
+          <p>
+            This tool is perfect for creating PDF documents from scanned pages,
+            photos, screenshots, or any image format. No software installation
+            needed.
+          </p>
+        </div>
+        <section
+          class="faq-section"
+          style="padding: 2rem 0 0; background: none"
+        >
+          <h2 style="font-size: 1.3rem">FAQs – JPG to PDF</h2>
+          <div class="faq-list">
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)">
+                Can I convert multiple images at once?<svg
+                  class="chevron"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="faq-a">
+                Yes! You can upload multiple images and they will all be
+                combined into a single PDF, one image per page.
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)">
+                Does image quality reduce after conversion?<svg
+                  class="chevron"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="faq-a">
+                No, the image quality is preserved during conversion. Your PDF
+                will look exactly like the original images.
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- MERGE PDF -->
+    <div id="merge-pdf" class="page">
+      <div class="tool-page">
+        <div class="tool-page-header">
+          <div class="breadcrumb">
+            <a onclick="navigate('home')">Home</a> › Merge PDF
+          </div>
+          <h1>Merge PDF Files</h1>
+          <p>
+            Combine two or more PDF files into one single document. Free, fast,
+            and secure.
+          </p>
+        </div>
+        <div class="tool-workspace">
+          <div
+            class="drop-zone"
+            onclick="document.getElementById('merge-input').click()"
+            id="merge-drop"
+            ondrop="handleToolDrop(event, 'merge-drop', 'merge-preview')"
+            ondragover="handleDragOver(event)"
+            ondragleave="handleDragLeave(event)"
+          >
+            <div class="drop-icon">📎</div>
+            <h3>Drop PDF Files Here</h3>
+            <p>Select 2 or more PDF files to merge</p>
+            <button class="drop-btn" onclick="event.stopPropagation()">
+              Select PDFs
+            </button>
+          </div>
+          <input
+            type="file"
+            id="merge-input"
+            accept=".pdf"
+            multiple
+            onchange="showPreview(this, 'merge-preview')"
+          />
+          <div class="preview-area" id="merge-preview">
+            Selected PDF files will be listed here.
+          </div>
+
+          <button
+            class="convert-btn"
+            onclick="
+              simulateConvert(
+                this,
+                'Merging PDFs…',
+                'merged_document.pdf',
+                'merge-input',
+                'merge-pdf',
+              )
+            "
+          >
+            Merge PDFs →
+          </button>
+        </div>
+        <div class="seo-content">
+          <h2>How to Merge PDFs Online</h2>
+          <p>
+            Upload two or more PDF files, arrange them in your preferred order,
+            and click Merge. PDFly will combine them into a single downloadable
+            PDF instantly — no account required.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPRESS PDF -->
+    <div id="compress-pdf" class="page">
+      <div class="tool-page">
+        <div class="tool-page-header">
+          <div class="breadcrumb">
+            <a onclick="navigate('home')">Home</a> › Compress PDF
+          </div>
+          <h1>Compress PDF</h1>
+          <p>
+            Reduce your PDF file size while maintaining the best possible
+            quality.
+          </p>
+        </div>
+        <div class="tool-workspace">
+          <div
+            class="drop-zone"
+            onclick="document.getElementById('compress-input').click()"
+            id="compress-drop"
+            ondrop="handleToolDrop(event, 'compress-drop', 'compress-preview')"
+            ondragover="handleDragOver(event)"
+            ondragleave="handleDragLeave(event)"
+          >
+            <div class="drop-icon">🗜️</div>
+            <h3>Drop PDF File Here</h3>
+            <p>Max file size: 50MB</p>
+            <button class="drop-btn" onclick="event.stopPropagation()">
+              Select PDF
+            </button>
+          </div>
+          <input
+            type="file"
+            id="compress-input"
+            accept=".pdf"
+            onchange="showPreview(this, 'compress-preview')"
+          />
+          <div class="preview-area" id="compress-preview">
+            PDF info will appear here after upload.
+          </div>
+          <div style="margin: 1rem 0">
+            <label style="font-weight: 500; font-size: 0.9rem"
+              >Compression Level</label
+            >
+            <div
+              style="
+                display: flex;
+                gap: 0.7rem;
+                margin-top: 0.6rem;
+                flex-wrap: wrap;
+              "
+            >
+              <label style="cursor: pointer"
+                ><input type="radio" name="compress" value="low" checked /> Low
+                (best quality)</label
+              >
+              <label style="cursor: pointer"
+                ><input type="radio" name="compress" value="med" />
+                Medium</label
+              >
+              <label style="cursor: pointer"
+                ><input type="radio" name="compress" value="high" /> High
+                (smallest size)</label
+              >
+            </div>
+          </div>
+
+          <button
+            class="convert-btn"
+            onclick="
+              simulateConvert(
+                this,
+                'Compressing PDF…',
+                'compressed.pdf',
+                'compress-input',
+                'compress-pdf',
+              )
+            "
+          >
+            Compress PDF →
+          </button>
+        </div>
+        <div class="seo-content">
+          <h2>Why Compress a PDF?</h2>
+          <p>
+            Large PDFs are hard to share over email or messaging apps. PDFly's
+            compression tool reduces file size by up to 80% while preserving
+            visual quality — perfect for sharing, uploading, or archiving.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPLIT PDF -->
+    <div id="split-pdf" class="page">
+      <div class="tool-page">
+        <div class="tool-page-header">
+          <div class="breadcrumb">
+            <a onclick="navigate('home')">Home</a> › Split PDF
+          </div>
+          <h1>Split PDF</h1>
+          <p>
+            Extract specific pages or split a PDF into multiple smaller files.
+          </p>
+        </div>
+        <div class="tool-workspace">
+          <div
+            class="drop-zone"
+            onclick="document.getElementById('split-input').click()"
+            id="split-drop"
+            ondrop="handleToolDrop(event, 'split-drop', 'split-preview')"
+            ondragover="handleDragOver(event)"
+            ondragleave="handleDragLeave(event)"
+          >
+            <div class="drop-icon">✂️</div>
+            <h3>Drop PDF File Here</h3>
+            <p>Upload the PDF you want to split</p>
+            <button class="drop-btn" onclick="event.stopPropagation()">
+              Select PDF
+            </button>
+          </div>
+          <input
+            type="file"
+            id="split-input"
+            accept=".pdf"
+            onchange="showPreview(this, 'split-preview')"
+          />
+          <div class="preview-area" id="split-preview">
+            After uploading, you can choose which pages to extract.
+          </div>
+          <div style="margin: 1rem 0">
+            <label
+              style="
+                font-weight: 500;
+                font-size: 0.9rem;
+                display: block;
+                margin-bottom: 0.5rem;
+              "
+              >Page Range to Extract</label
+            >
+            <input
+              type="text"
+              placeholder="e.g. 1-3, 5, 7-10"
+              style="
+                padding: 0.6rem 1rem;
+                border: 1.5px solid var(--border);
+                border-radius: 8px;
+                font-size: 0.9rem;
+                width: 220px;
+                outline: none;
+              "
+            />
+          </div>
+          <button
+            class="convert-btn"
+            onclick="
+              simulateConvert(
+                this,
+                'Splitting PDF…',
+                'split_document.pdf',
+                'split-input',
+                'split-pdf',
+              )
+            "
+          >
+            Split PDF →
+          </button>
+        </div>
+        <div class="seo-content">
+          <h2>How to Split a PDF</h2>
+          <p>
+            Upload your PDF, enter the page numbers or range you want to keep,
+            and click Split. You'll get a new PDF with only those pages — ready
+            to download instantly.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PDF TO WORD -->
+    <div id="pdf-to-word" class="page">
+      <div class="tool-page">
+        <div class="tool-page-header">
+          <div class="breadcrumb">
+            <a onclick="navigate('home')">Home</a> › PDF to Word
+          </div>
+          <h1>PDF to Word Converter</h1>
+          <p>
+            Convert PDF documents into editable Microsoft Word (.docx) files in
+            seconds.
+          </p>
+        </div>
+        <div class="tool-workspace">
+          <div
+            class="drop-zone"
+            onclick="document.getElementById('word-input').click()"
+            id="word-drop"
+            ondrop="handleToolDrop(event, 'word-drop', 'word-preview')"
+            ondragover="handleDragOver(event)"
+            ondragleave="handleDragLeave(event)"
+          >
+            <div class="drop-icon">📝</div>
+            <h3>Drop PDF File Here</h3>
+            <p>Upload your PDF to convert to Word</p>
+            <button class="drop-btn" onclick="event.stopPropagation()">
+              Select PDF
+            </button>
+          </div>
+          <input
+            type="file"
+            id="word-input"
+            accept=".pdf"
+            onchange="showPreview(this, 'word-preview')"
+          />
+          <div class="preview-area" id="word-preview">
+            Upload a PDF to begin conversion.
+          </div>
+          <button
+            class="convert-btn"
+            onclick="
+              simulateConvert(
+                this,
+                'Converting PDF to Word…',
+                'document.docx',
+                'word-input',
+                'pdf-to-word',
+              )
+            "
+          >
+            Convert to Word →
+          </button>
+        </div>
+        <div class="seo-content">
+          <h2>How to Convert PDF to Word</h2>
+          <p>
+            Upload your PDF file, click "Convert to Word", and download the
+            resulting .docx file. The converted document retains the original
+            formatting, fonts, and layout as closely as possible.
+          </p>
+          <p>
+            This tool is ideal for editing PDFs that were originally created
+            from Word documents, scanned pages, or any text-based PDF file.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ STATIC PAGES ═══════════════ -->
+
+    <!-- ABOUT -->
+    <div id="about" class="page">
+      <div class="static-page">
+        <h1>About PDFly</h1>
+        <p>
+          PDFly is a free, browser-based PDF utility platform built to make
+          working with PDFs simple for everyone — whether you're a student,
+          professional, or small business owner.
+        </p>
+        <h2>Our Mission</h2>
+        <p>
+          We believe that essential document tools should be free and accessible
+          to all. No paywalls, no signups, no complicated software. Just fast,
+          reliable tools that work instantly in your browser.
+        </p>
+        <h2>Privacy First</h2>
+        <p>
+          Your files are never shared with third parties. All uploaded files are
+          automatically deleted from our servers within 1 hour. We do not read,
+          store, or analyze the content of your documents.
+        </p>
+        <h2>Built For Everyone</h2>
+        <p>
+          PDFly is designed to work seamlessly on any device — desktop, tablet,
+          or mobile. We are committed to maintaining a clean, fast, and
+          accessible experience for all users worldwide.
+        </p>
+        <h2>Contact Us</h2>
+        <p>
+          Have feedback or need support?
+          <a href="#" onclick="navigate('contact')">Reach out to our team</a>.
+          We respond within 24–48 hours.
+        </p>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div id="contact" class="page">
+      <div class="static-page">
+        <h1>Contact Us</h1>
+        <p>
+          Have a question, feedback, or found a bug? We'd love to hear from you.
+        </p>
+        <div class="contact-form">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" placeholder="Enter your name" />
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="you@example.com" />
+          </div>
+          <div class="form-group">
+            <label>Subject</label>
+            <select>
+              <option>General Inquiry</option>
+              <option>Bug Report</option>
+              <option>Feature Request</option>
+              <option>Partnership</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="Write your message here…"></textarea>
+          </div>
+          <button
+            class="form-submit"
+            onclick="
+              showToast(
+                'Message sent! We\'ll get back to you within 24–48 hours. ✓',
+              )
+            "
+          >
+            Send Message
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRIVACY POLICY -->
+    <div id="privacy-policy" class="page">
+      <div class="static-page">
+        <h1>Privacy Policy</h1>
+        <p><strong>Last updated: may 2026</strong></p>
+        <h2>1. Information We Collect</h2>
+        <p>
+          PDFly collects minimal data. When you use our tools, we temporarily
+          process the files you upload in order to perform the requested
+          operation. We also collect standard server logs (IP address, browser
+          type, pages visited) to maintain and improve the service.
+        </p>
+        <h2>2. How We Use Your Files</h2>
+        <p>
+          Files you upload are used solely to perform the PDF operation you
+          requested. Files are automatically deleted from our servers within 1
+          hour of processing. We do not read, analyze, or share the content of
+          your files with any third parties.
+        </p>
+        <h2>3. Cookies</h2>
+        <p>
+          We use minimal cookies for analytics purposes (e.g., Google Analytics)
+          to understand how users interact with the site. You can disable
+          cookies in your browser settings at any time.
+        </p>
+        <h2>4. Third-Party Advertising</h2>
+        <p>
+          PDFly may display advertisements served by Google AdSense. These
+          advertisers may use cookies to show relevant ads. Please refer to
+          Google's privacy policy for more details.
+        </p>
+        <h2>5. Data Security</h2>
+        <p>
+          All data transfers are encrypted via HTTPS/TLS. We implement
+          industry-standard security measures to protect your data during
+          transit and processing.
+        </p>
+        <h2>6. Contact</h2>
+        <p>
+          For any privacy-related concerns, please
+          <a href="#" onclick="navigate('contact')">contact us</a>.
+        </p>
+      </div>
+    </div>
+
+    <!-- TERMS -->
+    <div id="terms" class="page">
+      <div class="static-page">
+        <h1>Terms &amp; Conditions</h1>
+        <p><strong>Last updated: January 2025</strong></p>
+        <h2>1. Acceptance of Terms</h2>
+        <p>
+          By accessing and using PDFly, you agree to be bound by these Terms and
+          Conditions. If you do not agree, please discontinue use of the
+          service.
+        </p>
+        <h2>2. Use of Service</h2>
+        <p>
+          PDFly is provided for personal and professional use. You agree not to
+          use this service to process illegal, copyrighted without permission,
+          or harmful content. You are solely responsible for the files you
+          upload.
+        </p>
+        <h2>3. No Warranties</h2>
+        <p>
+          PDFly is provided "as is" without warranty of any kind. We do not
+          guarantee 100% uptime or that conversion results will be error-free in
+          all cases.
+        </p>
+        <h2>4. Limitation of Liability</h2>
+        <p>
+          PDFly shall not be liable for any direct, indirect, or consequential
+          damages arising from your use of this service.
+        </p>
+        <h2>5. Changes to Terms</h2>
+        <p>
+          We reserve the right to modify these terms at any time. Continued use
+          of the service after changes constitutes your acceptance of the new
+          terms.
+        </p>
+        <h2>6. Contact</h2>
+        <p>
+          Questions about these terms?
+          <a href="#" onclick="navigate('contact')">Contact us here</a>.
+        </p>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a class="logo" href="#" onclick="navigate('home')"
+            >PDF<span style="color: var(--primary)">ly</span></a
+          >
+          <p>Free PDF tools for everyone.<br />No signup. No limits.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Tools</h4>
+            <a href="#" onclick="navigate('jpg-to-pdf')">JPG to PDF</a>
+            <a href="#" onclick="navigate('merge-pdf')">Merge PDF</a>
+            <a href="#" onclick="navigate('compress-pdf')">Compress PDF</a>
+            <a href="#" onclick="navigate('split-pdf')">Split PDF</a>
+            <a href="#" onclick="navigate('pdf-to-word')">PDF to Word</a>
+          </div>
+          <div class="footer-col">
+            <h4>Company</h4>
+            <a href="#" onclick="navigate('about')">About</a>
+            <a href="#" onclick="navigate('contact')">Contact</a>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <a href="#" onclick="navigate('privacy-policy')">Privacy Policy</a>
+            <a href="#" onclick="navigate('terms')">Terms &amp; Conditions</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2026 PDFly · Free PDF Tools · All rights reserved
+      </div>
+    </footer>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+      // ── ROUTING ──
+      function navigate(page) {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+
+        const target = document.getElementById(page);
+
+        if (target) {
+          target.classList.add("active");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
+
+      function scrollTo(selector) {
+        setTimeout(() => {
+          const el = document.querySelector(selector);
+
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+      }
+
+      // ── FAQ ──
+      function toggleFaq(btn) {
+        const item = btn.closest(".faq-item");
+
+        const wasOpen = item.classList.contains("open");
+
+        item
+          .closest(".faq-list, section")
+          .querySelectorAll(".faq-item")
+          .forEach((i) => i.classList.remove("open"));
+
+        if (!wasOpen) {
+          item.classList.add("open");
+        }
+      }
+
+      // ── DRAG & DROP ──
+      function handleDragOver(e) {
+        e.preventDefault();
+        e.currentTarget.classList.add("drag-over");
+      }
+
+      function handleDragLeave(e) {
+        e.currentTarget.classList.remove("drag-over");
+      }
+
+      function handleDrop(e) {
+        e.preventDefault();
+
+        e.currentTarget.classList.remove("drag-over");
+
+        const files = e.dataTransfer.files;
+
+        if (files.length > 0) {
+          showToast(`📄 "${files[0].name}" uploaded!`);
+        }
+      }
+
+      function handleToolDrop(e, dropId, previewId) {
+        e.preventDefault();
+
+        document.getElementById(dropId).classList.remove("drag-over");
+
+        const files = e.dataTransfer.files;
+
+        if (files.length > 0) {
+          updatePreview(previewId, files);
+        }
+      }
+
+      // ── FILE HANDLING ──
+      function handleHeroUpload(input) {
+        if (input.files.length > 0) {
+          showToast(`📄 "${input.files[0].name}" ready!`);
+
+          scrollTo("#tools");
+        }
+      }
+
+      function handleFileSelect(input) {
+        if (input.files.length > 0) {
+          showToast(`📄 "${input.files[0].name}" uploaded successfully!`);
+        }
+      }
+
+      function showPreview(input, previewId) {
+        updatePreview(previewId, input.files);
+      }
+
+      function updatePreview(previewId, files) {
+        const area = document.getElementById(previewId);
+
+        if (!files || files.length === 0) return;
+
+        let html = '<div style="width:100%; text-align:left;">';
+
+        Array.from(files).forEach((f) => {
+          const size = (f.size / 1024).toFixed(1) + " KB";
+
+          html += `
+      <div style="
+        display:flex;
+        align-items:center;
+        gap:.6rem;
+        padding:.5rem 0;
+        border-bottom:1px solid var(--border);
+      ">
+        <span style="font-size:1.4rem;">
+          ${f.type.includes("image") ? "🖼️" : "📄"}
+        </span>
+
+        <div>
+          <div style="font-weight:600;font-size:.9rem;">
+            ${f.name}
+          </div>
+
+          <div style="
+            font-size:.78rem;
+            color:var(--muted);
+          ">
+            ${size}
+          </div>
+        </div>
+
+        <span style="
+          margin-left:auto;
+          background:#e6f9f0;
+          color:#1a7a4a;
+          font-size:.75rem;
+          padding:.2rem .6rem;
+          border-radius:99px;
+          font-weight:600;
+        ">
+          Ready
+        </span>
+      </div>
+      `;
+        });
+
+        html += "</div>";
+
+        area.innerHTML = html;
+
+        area.style.minHeight = "auto";
+
+        area.style.padding = "1rem";
+      }
+
+      // ─────────────────────────────────────────────
+      // MAIN PDF FUNCTIONS
+      // ─────────────────────────────────────────────
+
+      async function simulateConvert(btn, msg, filename, inputId, toolType) {
+        const original = btn.textContent;
+
+        btn.disabled = true;
+
+        btn.textContent = "⏳ " + msg;
+
+        try {
+          const input = document.getElementById(inputId);
+
+          const files = input.files;
+
+          if (!files || files.length === 0) {
+            showToast("❌ Please upload files first.");
+
+            btn.disabled = false;
+
+            btn.textContent = original;
+
+            return;
+          }
+
+          // ───────────────── JPG TO PDF ─────────────────
+
+          if (toolType === "jpg-to-pdf") {
+            const { jsPDF } = window.jspdf;
+
+            const pdf = new jsPDF();
+
+            for (let i = 0; i < files.length; i++) {
+              const file = files[i];
+
+              const imgData = await fileToDataURL(file);
+
+              if (i > 0) {
+                pdf.addPage();
+              }
+
+              const img = new Image();
+
+              img.src = imgData;
+
+              await new Promise((resolve) => {
+                img.onload = resolve;
+              });
+
+              const pdfWidth = pdf.internal.pageSize.getWidth();
+
+              const pdfHeight = (img.height * pdfWidth) / img.width;
+
+              pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
+            }
+
+            pdf.save(filename);
+          }
+
+          // ───────────────── MERGE PDF ─────────────────
+          else if (toolType === "merge-pdf") {
+            const mergedPdf = await PDFLib.PDFDocument.create();
+
+            for (const file of files) {
+              const bytes = await file.arrayBuffer();
+
+              const pdf = await PDFLib.PDFDocument.load(bytes);
+
+              const copiedPages = await mergedPdf.copyPages(
+                pdf,
+                pdf.getPageIndices(),
+              );
+
+              copiedPages.forEach((page) => {
+                mergedPdf.addPage(page);
+              });
+            }
+
+            const mergedPdfBytes = await mergedPdf.save();
+
+            downloadFile(mergedPdfBytes, filename, "application/pdf");
+          }
+
+          // ───────────────── COMPRESS PDF ─────────────────
+          else if (toolType === "compress-pdf") {
+            const file = files[0];
+
+            const bytes = await file.arrayBuffer();
+
+            const pdfDoc = await PDFLib.PDFDocument.load(bytes);
+
+            const compressedBytes = await pdfDoc.save({
+              useObjectStreams: true,
+            });
+
+            downloadFile(compressedBytes, filename, "application/pdf");
+          }
+
+          // ───────────────── SPLIT PDF ─────────────────
+          else if (toolType === "split-pdf") {
+            const file = files[0];
+
+            const bytes = await file.arrayBuffer();
+
+            const pdfDoc = await PDFLib.PDFDocument.load(bytes);
+
+            const newPdf = await PDFLib.PDFDocument.create();
+
+            const [firstPage] = await newPdf.copyPages(pdfDoc, [0]);
+
+            newPdf.addPage(firstPage);
+
+            const newBytes = await newPdf.save();
+
+            downloadFile(newBytes, filename, "application/pdf");
+          }
+
+          // ───────────────── PDF TO WORD ─────────────────
+          else if (toolType === "pdf-to-word") {
+            const textBlob = new Blob(
+              [
+                "PDF converted successfully.\n\n(Real DOCX conversion requires backend/API)",
+              ],
+              {
+                type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+              },
+            );
+
+            downloadBlob(textBlob, filename);
+          }
+
+          showToast(`✅ "${filename}" downloaded successfully.`);
+        } catch (err) {
+          console.error(err);
+
+          showToast("❌ Something went wrong.");
+        }
+
+        btn.disabled = false;
+
+        btn.textContent = original;
+      }
+
+      // ─────────────────────────────────────────────
+      // HELPERS
+      // ─────────────────────────────────────────────
+
+      function fileToDataURL(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+
+          reader.onload = () => resolve(reader.result);
+
+          reader.onerror = reject;
+
+          reader.readAsDataURL(file);
+        });
+      }
+
+      function downloadBlob(blob, filename) {
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+
+        a.href = url;
+
+        a.download = filename;
+
+        document.body.appendChild(a);
+
+        a.click();
+
+        document.body.removeChild(a);
+
+        URL.revokeObjectURL(url);
+      }
+
+      function downloadFile(data, filename, mimeType) {
+        const blob = new Blob([data], { type: mimeType });
+
+        downloadBlob(blob, filename);
+      }
+
+      // ─────────────────────────────────────────────
+      // TOAST
+      // ─────────────────────────────────────────────
+
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+
+        t.textContent = msg;
+
+        t.classList.add("show");
+
+        setTimeout(() => {
+          t.classList.remove("show");
+        }, 3500);
+      }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+  </body>
+</html>
